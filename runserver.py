@@ -58,6 +58,8 @@ if __name__ == '__main__':
     config['ORIGINAL_LONGITUDE'] = position[1]
     config['LOCALE'] = args.locale
     config['CHINA'] = args.china
+    config['THREADS'] = load_credentials(os.path.dirname(os.path.realpath(__file__)))['google_auth']
+    config['NUM THREADS'] = len(config['THREADS'])
 
     if not args.mock:
         start_locator_thread(args)
