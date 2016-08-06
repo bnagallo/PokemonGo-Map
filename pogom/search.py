@@ -117,7 +117,7 @@ def search_thread(args):
                 parse_map(response_dict, i, step, step_location)
                 log.info('Step {:d} of {:d} for MAP PARSED.'.format(step, total_steps))
             except KeyError:
-                log.error('Scan step {:d} failed. RPC limit reached.'.format(step))
+                log.error('Scan step {:d} failed. RPC connection limit reached.'.format(step))
                 failed_consecutive += 1
                 if(failed_consecutive >= config['REQ_MAX_FAILED']):
                     log.error('Niantic servers under heavy load. Waiting before trying again')

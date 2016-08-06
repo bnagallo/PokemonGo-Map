@@ -137,6 +137,7 @@ def load_credentials(filepath):
             creds = json.load(file)
     except IOError:
         creds = {}
+       #TODO: Check if there is at least one auth for thread use
     if not creds.get('gmaps_key'):
         raise APIKeyException(\
             "No Google Maps Javascript API key entered in \config\credentials.json file!"

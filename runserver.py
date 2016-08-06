@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
     args = get_args()
 
+
     if args.debug:
         logging.getLogger("requests").setLevel(logging.DEBUG)
         logging.getLogger("pgoapi").setLevel(logging.DEBUG)
