@@ -8,3 +8,7 @@ config/credentials.json
 static/dist/
 node_modules/
 venv/
+
+*.ini
+
+config/credentials.json

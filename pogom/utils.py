@@ -43,7 +43,7 @@ def get_args():
     parser.add_argument('-p', '--password', help='Password', required=False)
     parser.add_argument('-l', '--location', type=parse_unicode, help='Location, can be an address or coordinates', required=False)
     parser.add_argument('-st', '--step-limit', help='Steps', required=False, type=int)
-    parser.add_argument('-sd', '--scan-delay', help='Time delay before beginning new scan', required=False, type=int, default=1)
+    parser.add_argument('-sd', '--scan-delay', help='Time delay before beginning new scan', required=False, type=float, default=1)
     parser.add_argument('-dc','--display-in-console',help='Display Found Pokemon in Console',action='store_true',default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host', default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int, help='Set web server listening port', default=5000)
@@ -137,6 +137,7 @@ def load_credentials(filepath):
             creds = json.load(file)
     except IOError:
         creds = {}
+       #TODO: Check if there is at least one auth for thread use
     if not creds.get('gmaps_key'):
         raise APIKeyException(\
             "No Google Maps Javascript API key entered in \config\credentials.json file!"

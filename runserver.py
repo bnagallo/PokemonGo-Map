@@ -29,7 +29,7 @@ def start_locator_thread(args):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(module)11s] [%(levelname)7s] %(message)s')
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(module)14s] [%(levelname)7s] %(message)s')
 
     logging.getLogger("peewee").setLevel(logging.INFO)
     logging.getLogger("requests").setLevel(logging.WARNING)
@@ -38,6 +38,7 @@ if __name__ == '__main__':
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
     args = get_args()
+
 
     if args.debug:
         logging.getLogger("requests").setLevel(logging.DEBUG)
@@ -58,6 +59,8 @@ if __name__ == '__main__':
     config['ORIGINAL_LONGITUDE'] = position[1]
     config['LOCALE'] = args.locale
     config['CHINA'] = args.china
+    config['THREADS'] = load_credentials(os.path.dirname(os.path.realpath(__file__)))['google_auth']
+    config['NUM THREADS'] = len(config['THREADS'])
 
     if not args.mock:
         start_locator_thread(args)
@@ -75,6 +78,7 @@ if __name__ == '__main__':
     else:
         config['GMAPS_KEY'] = load_credentials(os.path.dirname(os.path.realpath(__file__)))['gmaps_key']
 
+    # noinspection PyPackageRequirements
     if args.no_server:
         while not search_thread.isAlive():
             time.sleep(1)

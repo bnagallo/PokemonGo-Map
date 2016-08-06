@@ -38,6 +38,8 @@ def send_map_request(api, position):
                             longitude=f2i(position[1]),
                             since_timestamp_ms=TIMESTAMP,
                             cell_id=get_cellid(position[0], position[1]))
+
+
         return api.call()
     except Exception as e:
         log.warn("Uncaught exception when downloading map " + str(e))
@@ -113,8 +115,9 @@ def search_thread(args):
             try:
                 sem.acquire()
                 parse_map(response_dict, i, step, step_location)
+                log.info('Step {:d} of {:d} for MAP PARSED.'.format(step, total_steps))
             except KeyError:
-                log.error('Scan step {:d} failed. Response dictionary key error.'.format(step))
+                log.error('Scan step {:d} failed. RPC connection limit reached.'.format(step))
                 failed_consecutive += 1
                 if(failed_consecutive >= config['REQ_MAX_FAILED']):
                     log.error('Niantic servers under heavy load. Waiting before trying again')
@@ -184,10 +187,10 @@ def search_loop(args):
             log.info("Map iteration: {}".format(i))
             search(args, i)
             log.info("Scanning complete.")
-            if args.scan_delay > 1:
-                log.info('Waiting {:d} seconds before beginning new scan.'.format(args.scan_delay))
-                time.sleep(args.scan_delay)
-            i += 1
+
+            log.info('Waiting {:.3f} seconds before beginning new scan.'.format(args.scan_delay))
+            time.sleep(args.scan_delay)
+            i+=1
 
     # This seems appropriate
     except Exception as e:
